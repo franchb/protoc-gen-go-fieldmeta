@@ -100,22 +100,34 @@ func extractFieldMeta(field *protogen.Field) fieldMeta {
 		return fm
 	}
 	if proto.HasExtension(opts, fieldmetav1.E_Log) {
-		fm.Log = proto.GetExtension(opts, fieldmetav1.E_Log).(string)
+		if v, ok := proto.GetExtension(opts, fieldmetav1.E_Log).(string); ok {
+			fm.Log = v
+		}
 	}
 	if proto.HasExtension(opts, fieldmetav1.E_Sensitive) {
-		fm.Sensitive = proto.GetExtension(opts, fieldmetav1.E_Sensitive).(bool)
+		if v, ok := proto.GetExtension(opts, fieldmetav1.E_Sensitive).(bool); ok {
+			fm.Sensitive = v
+		}
 	}
 	if proto.HasExtension(opts, fieldmetav1.E_Immutable) {
-		fm.Immutable = proto.GetExtension(opts, fieldmetav1.E_Immutable).(bool)
+		if v, ok := proto.GetExtension(opts, fieldmetav1.E_Immutable).(bool); ok {
+			fm.Immutable = v
+		}
 	}
 	if proto.HasExtension(opts, fieldmetav1.E_Db) {
-		fm.Db = proto.GetExtension(opts, fieldmetav1.E_Db).(string)
+		if v, ok := proto.GetExtension(opts, fieldmetav1.E_Db).(string); ok {
+			fm.Db = v
+		}
 	}
 	if proto.HasExtension(opts, fieldmetav1.E_Mask) {
-		fm.Mask = proto.GetExtension(opts, fieldmetav1.E_Mask).(string)
+		if v, ok := proto.GetExtension(opts, fieldmetav1.E_Mask).(string); ok {
+			fm.Mask = v
+		}
 	}
 	if proto.HasExtension(opts, fieldmetav1.E_Tags) {
-		fm.Tags = proto.GetExtension(opts, fieldmetav1.E_Tags).(string)
+		if v, ok := proto.GetExtension(opts, fieldmetav1.E_Tags).(string); ok {
+			fm.Tags = v
+		}
 	}
 	return fm
 }

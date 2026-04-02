@@ -573,6 +573,9 @@ func TestFieldTags_LegacyUser_Idempotent(t *testing.T) {
 func TestSensitiveFieldNames_User_ReturnsNewSlice(t *testing.T) {
 	a := SensitiveFieldNames_User()
 	b := SensitiveFieldNames_User()
+	if len(a) == 0 || len(b) == 0 {
+		t.Fatalf("expected non-empty sensitive field slices, got a=%v b=%v", a, b)
+	}
 
 	// Mutating one should not affect the other
 	a[0] = "MUTATED"

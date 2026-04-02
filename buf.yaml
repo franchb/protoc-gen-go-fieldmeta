@@ -6,6 +6,8 @@ modules:
 lint:
   use:
     - STANDARD
+  ignore:
+    - testdata
 breaking:
   use:
     - FILE

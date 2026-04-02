@@ -36,3 +36,4 @@ go.work.sum
 
 # Generated test fieldmeta files (regenerated from golden)
 # testdata/testpb/*_fieldmeta.pb.go
+protoc-gen-go-fieldmeta

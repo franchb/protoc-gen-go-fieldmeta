@@ -71,6 +71,13 @@ tasks:
     deps: [tools]
     cmd: "{{ .TOOL_DIR }}/buf generate"
 
+  proto-generate-fieldmeta:
+    desc: Build plugin and generate fieldmeta helpers for test protos
+    deps: [tools]
+    cmds:
+      - go build -o {{ .TOOL_DIR }}/protoc-gen-go-fieldmeta ./cmd/protoc-gen-go-fieldmeta/
+      - "PATH={{ .TOOL_DIR }}:$PATH {{ .TOOL_DIR }}/buf generate --template buf.gen.fieldmeta.yaml --path testdata/testpb/"
+
   proto-breaking:
     desc: Check for breaking protobuf changes
     deps: [tools]

@@ -13,8 +13,8 @@ import (
 )
 
 func main() {
-	showVersion := flag.Bool("version", false, "print the version and exit")
 	var flags flag.FlagSet
+	showVersion := flags.Bool("version", false, "print the version and exit")
 
 	protogen.Options{ParamFunc: flags.Set}.Run(func(gen *protogen.Plugin) error {
 		if *showVersion {
