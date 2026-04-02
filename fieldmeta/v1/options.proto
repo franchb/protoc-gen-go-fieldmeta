@@ -1,0 +1,27 @@
+edition = "2023";
+
+package fieldmeta.v1;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/franchb/protoc-gen-go-fieldmeta/fieldmeta/v1;fieldmetav1";
+
+extend google.protobuf.FieldOptions {
+  // Structured logging key for this field.
+  string log = 50100;
+
+  // Marks the field as containing sensitive data.
+  bool sensitive = 50101;
+
+  // Marks the field as immutable after creation.
+  bool immutable = 50102;
+
+  // Database column name mapping.
+  string db = 50103;
+
+  // Masking behavior hint (e.g. "email", "phone", "full").
+  string mask = 50104;
+
+  // Raw struct tag string — migration shim from @gotags.
+  string tags = 50200;
+}
