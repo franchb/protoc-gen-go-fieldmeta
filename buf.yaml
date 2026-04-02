@@ -2,7 +2,7 @@
 version: v2
 modules:
   - path: .
-    name: buf.build/franchb/protoc-gen-go-fieldmeta
+    name: buf.build/franchb-oss/protoc-gen-go-fieldmeta
 lint:
   use:
     - STANDARD
