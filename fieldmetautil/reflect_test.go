@@ -4,10 +4,9 @@ import (
 	"slices"
 	"testing"
 
-	"google.golang.org/protobuf/proto"
-
 	fieldmetav1 "github.com/franchb/protoc-gen-go-fieldmeta/fieldmeta/v1"
 	"github.com/franchb/protoc-gen-go-fieldmeta/testdata/testpb"
+	"google.golang.org/protobuf/proto"
 )
 
 // ---------- LogFields ----------

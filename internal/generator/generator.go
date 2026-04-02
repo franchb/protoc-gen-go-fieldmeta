@@ -1,11 +1,10 @@
 package generator
 
 import (
-	"google.golang.org/protobuf/compiler/protogen"
-	"google.golang.org/protobuf/proto"
-
 	fieldmetav1 "github.com/franchb/protoc-gen-go-fieldmeta/fieldmeta/v1"
 	"github.com/franchb/protoc-gen-go-fieldmeta/internal/version"
+	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/proto"
 )
 
 // fieldMeta holds extracted option values for a single field.

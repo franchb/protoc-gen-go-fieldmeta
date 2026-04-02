@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/franchb/protoc-gen-go-fieldmeta/internal/generator"
+	"github.com/franchb/protoc-gen-go-fieldmeta/internal/version"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/types/descriptorpb"
 	"google.golang.org/protobuf/types/pluginpb"
-
-	"github.com/franchb/protoc-gen-go-fieldmeta/internal/generator"
-	"github.com/franchb/protoc-gen-go-fieldmeta/internal/version"
 )
 
 func main() {

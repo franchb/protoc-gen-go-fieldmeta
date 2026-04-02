@@ -1,0 +1,10 @@
+version: "2"
+linters:
+  enable:
+    - asciicheck
+    - gocritic
+    - misspell
+formatters:
+  enable:
+    - gofmt
+    - gci
