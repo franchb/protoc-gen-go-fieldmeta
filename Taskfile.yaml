@@ -1,0 +1,101 @@
+version: "3"
+
+vars:
+  TOOL_DIR: .tool
+  BINNY_VERSION: v0.13.0
+
+tasks:
+  default:
+    desc: Run all checks
+    deps: [lint, test]
+
+  ## Tool management ──────────────────────────────────────────────
+
+  binny:
+    internal: true
+    generates:
+      - "{{ .TOOL_DIR }}/binny"
+    status:
+      - "test -f {{ .TOOL_DIR }}/binny"
+    cmds:
+      - "mkdir -p {{ .TOOL_DIR }}"
+      - "GOBIN=$(pwd)/{{ .TOOL_DIR }} go install github.com/anchore/binny/cmd/binny@{{ .BINNY_VERSION }}"
+    silent: true
+
+  tools:
+    desc: Install all dev tools
+    deps: [binny]
+    generates:
+      - "{{ .TOOL_DIR }}/*"
+    status:
+      - "{{ .TOOL_DIR }}/binny check -v"
+    cmd: "{{ .TOOL_DIR }}/binny install -v"
+    silent: true
+
+  update-tools:
+    desc: Update pinned tool versions
+    deps: [binny]
+    cmd: "{{ .TOOL_DIR }}/binny update -v"
+
+  list-tools:
+    desc: List installed tools
+    deps: [binny]
+    cmd: "{{ .TOOL_DIR }}/binny list"
+
+  ## Quality ──────────────────────────────────────────────────────
+
+  lint:
+    desc: Run golangci-lint
+    deps: [tools]
+    cmd: "{{ .TOOL_DIR }}/golangci-lint run ./..."
+
+  fmt:
+    desc: Format Go code
+    cmds:
+      - go fmt ./...
+
+  ## Proto ────────────────────────────────────────────────────────
+
+  proto-lint:
+    desc: Lint protobuf files
+    deps: [tools]
+    cmd: "{{ .TOOL_DIR }}/buf lint"
+
+  proto-format:
+    desc: Format protobuf files
+    deps: [tools]
+    cmd: "{{ .TOOL_DIR }}/buf format -w"
+
+  proto-generate:
+    desc: Generate Go code from protobuf
+    deps: [tools]
+    cmd: "{{ .TOOL_DIR }}/buf generate"
+
+  proto-generate-fieldmeta:
+    desc: Build plugin and generate fieldmeta helpers for test protos
+    deps: [tools]
+    cmds:
+      - go build -o {{ .TOOL_DIR }}/protoc-gen-go-fieldmeta ./cmd/protoc-gen-go-fieldmeta/
+      - "PATH={{ .TOOL_DIR }}:$PATH {{ .TOOL_DIR }}/buf generate --template buf.gen.fieldmeta.yaml --path testdata/testpb/"
+
+  proto-breaking:
+    desc: Check for breaking protobuf changes
+    deps: [tools]
+    cmd: "{{ .TOOL_DIR }}/buf breaking --against '.git#branch=main'"
+
+  ## Build & Test ─────────────────────────────────────────────────
+
+  build:
+    desc: Build the plugin
+    cmds:
+      - go build ./...
+
+  test:
+    desc: Run tests
+    cmds:
+      - go test -race ./...
+
+  clean:
+    desc: Remove build artifacts and tool cache
+    cmds:
+      - rm -rf {{ .TOOL_DIR }}

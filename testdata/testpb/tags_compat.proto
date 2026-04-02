@@ -1,0 +1,23 @@
+edition = "2023";
+
+package testpb;
+
+import "fieldmeta/v1/options.proto";
+
+option go_package = "github.com/franchb/protoc-gen-go-fieldmeta/testdata/testpb;testpb";
+
+message LegacyUser {
+  string email = 1 [
+    (fieldmeta.v1.tags) = "validate:\"required,email\" yaml:\"email\""
+  ];
+
+  int32 age = 2 [
+    (fieldmeta.v1.tags) = "validate:\"gte=0,lte=150\""
+  ];
+
+  // This field uses structured options, NOT tags — should not appear in FieldTags.
+  string login = 3 [
+    (fieldmeta.v1.log) = "user_login",
+    (fieldmeta.v1.sensitive) = true
+  ];
+}

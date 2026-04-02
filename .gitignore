@@ -27,6 +27,13 @@ go.work.sum
 # env file
 .env
 
+# Dev tools (managed by binny)
+.tool/
+
 # Editor/IDE
 # .idea/
 # .vscode/
+
+# Generated test fieldmeta files (regenerated from golden)
+# testdata/testpb/*_fieldmeta.pb.go
+protoc-gen-go-fieldmeta

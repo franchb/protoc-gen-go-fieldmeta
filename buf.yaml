@@ -1,0 +1,13 @@
+# buf.yaml
+version: v2
+modules:
+  - path: .
+    name: buf.build/franchb-oss/protoc-gen-go-fieldmeta
+lint:
+  use:
+    - STANDARD
+  ignore:
+    - testdata
+breaking:
+  use:
+    - FILE

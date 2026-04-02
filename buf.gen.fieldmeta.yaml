@@ -1,0 +1,8 @@
+# buf.gen.fieldmeta.yaml
+version: v2
+plugins:
+  - local: protoc-gen-go-fieldmeta
+    out: .
+    opt: paths=source_relative
+inputs:
+  - directory: .
