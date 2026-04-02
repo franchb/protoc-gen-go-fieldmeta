@@ -1,0 +1,10 @@
+edition = "2023";
+
+package testpb;
+
+option go_package = "github.com/franchb/protoc-gen-go-fieldmeta/testdata/testpb;testpb";
+
+message Plain {
+  string id = 1;
+  string name = 2;
+}

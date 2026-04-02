@@ -1,0 +1,46 @@
+edition = "2023";
+
+package testpb;
+
+import "fieldmeta/v1/options.proto";
+
+option go_package = "github.com/franchb/protoc-gen-go-fieldmeta/testdata/testpb;testpb";
+
+message User {
+  string email = 1 [
+    (fieldmeta.v1.log) = "user_email",
+    (fieldmeta.v1.db) = "email_address",
+    (fieldmeta.v1.mask) = "email"
+  ];
+
+  string display_name = 2 [
+    (fieldmeta.v1.log) = "name"
+  ];
+
+  string password_hash = 3 [
+    (fieldmeta.v1.sensitive) = true
+  ];
+
+  string ssn = 4 [
+    (fieldmeta.v1.sensitive) = true,
+    (fieldmeta.v1.mask) = "full"
+  ];
+
+  string role = 5 [
+    (fieldmeta.v1.immutable) = true
+  ];
+}
+
+message Empty {}
+
+message Outer {
+  string name = 1 [
+    (fieldmeta.v1.log) = "outer_name"
+  ];
+
+  message Inner {
+    int32 value = 1 [
+      (fieldmeta.v1.log) = "inner_val"
+    ];
+  }
+}
