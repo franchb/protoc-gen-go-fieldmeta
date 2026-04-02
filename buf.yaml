@@ -1,0 +1,11 @@
+# buf.yaml
+version: v2
+modules:
+  - path: .
+    name: buf.build/franchb/protoc-gen-go-fieldmeta
+lint:
+  use:
+    - STANDARD
+breaking:
+  use:
+    - FILE

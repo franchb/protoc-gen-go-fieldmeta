@@ -1,0 +1,21 @@
+tools:
+  - name: task
+    version:
+      want: v3.49.1
+    method: github-release
+    with:
+      repo: go-task/task
+
+  - name: golangci-lint
+    version:
+      want: v2.11.4
+    method: github-release
+    with:
+      repo: golangci/golangci-lint
+
+  - name: buf
+    version:
+      want: v1.67.0
+    method: github-release
+    with:
+      repo: bufbuild/buf
