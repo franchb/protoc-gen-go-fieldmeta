@@ -1,8 +1,6 @@
 package generator
 
 import (
-	"fmt"
-
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 
@@ -156,15 +154,5 @@ func filter(fields []fieldMeta, pred func(fieldMeta) bool) []fieldMeta {
 	return result
 }
 
-// emitMessageHelpers and emitTagParserHelpers are implemented in helpers.go.
-// They are declared here as forward references so the file compiles during Task 4.
-// These will be replaced when helpers.go is created in Task 5.
-
-func emitMessageHelpers(_ *protogen.GeneratedFile, _ messageMeta) {}
-func emitTagParserHelpers(_ *protogen.GeneratedFile)              {}
-
 // Used by helpers.go for qualified identifiers.
-var (
-	protoPackage = protogen.GoImportPath("google.golang.org/protobuf/proto")
-	_            = fmt.Sprintf // ensure fmt is available for helpers
-)
+var protoPackage = protogen.GoImportPath("google.golang.org/protobuf/proto")
