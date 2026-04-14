@@ -45,7 +45,16 @@ func emitLogFields(g *protogen.GeneratedFile, msgName string, msg *protogen.Mess
 	g.P("	result := make(map[string]any, ", len(fields), ")")
 	for _, fm := range fields {
 		protoName := string(fm.Field.Desc.Name())
-		g.P(fmt.Sprintf("	result[%q] = m.Get(fds.ByName(%q)).Interface()", fm.Log, protoName))
+		if fm.Field.Desc.IsList() {
+			g.P(fmt.Sprintf("	{"))
+			g.P(fmt.Sprintf("		_l := m.Get(fds.ByName(%q)).List()", protoName))
+			g.P(fmt.Sprintf("		_s := make([]any, _l.Len())"))
+			g.P(fmt.Sprintf("		for _i := 0; _i < _l.Len(); _i++ { _s[_i] = _l.Get(_i).Interface() }"))
+			g.P(fmt.Sprintf("		result[%q] = _s", fm.Log))
+			g.P(fmt.Sprintf("	}"))
+		} else {
+			g.P(fmt.Sprintf("	result[%q] = m.Get(fds.ByName(%q)).Interface()", fm.Log, protoName))
+		}
 	}
 	g.P("	return result")
 	g.P("}")

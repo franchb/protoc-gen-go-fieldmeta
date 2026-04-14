@@ -7,6 +7,11 @@ import (
 	fieldmetav1 "github.com/franchb/protoc-gen-go-fieldmeta/fieldmeta/v1"
 	"github.com/franchb/protoc-gen-go-fieldmeta/testdata/testpb"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/reflect/protodesc"
+	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/reflect/protoregistry"
+	"google.golang.org/protobuf/types/descriptorpb"
+	"google.golang.org/protobuf/types/dynamicpb"
 )
 
 // ---------- LogFields ----------
@@ -318,5 +323,128 @@ func TestGetBoolOpt_NilOptions(t *testing.T) {
 
 	if v := getBoolOpt(idFd, fieldmetav1.E_Sensitive); v {
 		t.Error("getBoolOpt on Plain.id for sensitive = true, want false")
+	}
+}
+
+// ---------- LogFields: repeated fields ----------
+
+// makeRepeatedMsgDesc builds a synthetic proto descriptor for:
+//
+//	message Group {
+//	  repeated string roles = 1 [(fieldmeta.v1.log) = "roles"];
+//	  repeated int32  flags = 2 [(fieldmeta.v1.log) = "flags"];
+//	}
+func makeRepeatedMsgDesc(t *testing.T) protoreflect.MessageDescriptor {
+	t.Helper()
+
+	strType := descriptorpb.FieldDescriptorProto_TYPE_STRING
+	int32Type := descriptorpb.FieldDescriptorProto_TYPE_INT32
+	labelRepeated := descriptorpb.FieldDescriptorProto_LABEL_REPEATED
+
+	rolesOpts := &descriptorpb.FieldOptions{}
+	proto.SetExtension(rolesOpts, fieldmetav1.E_Log, "roles")
+
+	flagsOpts := &descriptorpb.FieldOptions{}
+	proto.SetExtension(flagsOpts, fieldmetav1.E_Log, "flags")
+
+	fdp := &descriptorpb.FileDescriptorProto{
+		Name:       proto.String("test_repeated_dynamic.proto"),
+		Syntax:     proto.String("proto3"),
+		Dependency: []string{"fieldmeta/v1/options.proto"},
+		MessageType: []*descriptorpb.DescriptorProto{
+			{
+				Name: proto.String("Group"),
+				Field: []*descriptorpb.FieldDescriptorProto{
+					{
+						Name:     proto.String("roles"),
+						Number:   proto.Int32(1),
+						Type:     &strType,
+						Label:    &labelRepeated,
+						JsonName: proto.String("roles"),
+						Options:  rolesOpts,
+					},
+					{
+						Name:     proto.String("flags"),
+						Number:   proto.Int32(2),
+						Type:     &int32Type,
+						Label:    &labelRepeated,
+						JsonName: proto.String("flags"),
+						Options:  flagsOpts,
+					},
+				},
+			},
+		},
+	}
+
+	file, err := protodesc.NewFile(fdp, protoregistry.GlobalFiles)
+	if err != nil {
+		t.Fatalf("protodesc.NewFile: %v", err)
+	}
+	return file.Messages().ByName("Group")
+}
+
+func TestLogFields_RepeatedStringAndInt32(t *testing.T) {
+	msgDesc := makeRepeatedMsgDesc(t)
+	msg := dynamicpb.NewMessage(msgDesc)
+
+	rolesField := msgDesc.Fields().ByName("roles")
+	rolesList := msg.Mutable(rolesField).List()
+	rolesList.Append(protoreflect.ValueOfString("admin"))
+	rolesList.Append(protoreflect.ValueOfString("user"))
+
+	flagsField := msgDesc.Fields().ByName("flags")
+	flagsList := msg.Mutable(flagsField).List()
+	flagsList.Append(protoreflect.ValueOfInt32(1))
+	flagsList.Append(protoreflect.ValueOfInt32(2))
+
+	got := LogFields(msg)
+
+	if len(got) != 2 {
+		t.Fatalf("expected 2 keys, got %d: %v", len(got), got)
+	}
+
+	rolesVal, ok := got["roles"]
+	if !ok {
+		t.Fatal("missing 'roles' key")
+	}
+	roleSlice, ok := rolesVal.([]any)
+	if !ok {
+		t.Fatalf("'roles' value is %T (want []any) — protoreflect.List was not converted", rolesVal)
+	}
+	if len(roleSlice) != 2 || roleSlice[0] != "admin" || roleSlice[1] != "user" {
+		t.Errorf("roles = %v, want [admin user]", roleSlice)
+	}
+
+	flagsVal, ok := got["flags"]
+	if !ok {
+		t.Fatal("missing 'flags' key")
+	}
+	flagSlice, ok := flagsVal.([]any)
+	if !ok {
+		t.Fatalf("'flags' value is %T (want []any) — protoreflect.List was not converted", flagsVal)
+	}
+	if len(flagSlice) != 2 || flagSlice[0] != int32(1) || flagSlice[1] != int32(2) {
+		t.Errorf("flags = %v, want [1 2]", flagSlice)
+	}
+}
+
+func TestLogFields_RepeatedFields_Empty(t *testing.T) {
+	msgDesc := makeRepeatedMsgDesc(t)
+	msg := dynamicpb.NewMessage(msgDesc) // no fields set
+
+	got := LogFields(msg)
+
+	if len(got) != 2 {
+		t.Fatalf("expected 2 keys for zero-value message, got %d: %v", len(got), got)
+	}
+	for key, val := range got {
+		slice, ok := val.([]any)
+		if !ok {
+			t.Errorf("key %q: value is %T, want []any", key, val)
+			continue
+		}
+		if len(slice) != 0 {
+			t.Errorf("key %q: expected empty slice, got %v", key, slice)
+		}
 	}
 }
