@@ -29,7 +29,16 @@ func LogFields(msg proto.Message) map[string]any {
 		if result == nil {
 			result = make(map[string]any)
 		}
-		result[logKey] = m.Get(fd).Interface()
+		if fd.IsList() {
+			list := m.Get(fd).List()
+			items := make([]any, list.Len())
+			for i := 0; i < list.Len(); i++ {
+				items[i] = list.Get(i).Interface()
+			}
+			result[logKey] = items
+		} else {
+			result[logKey] = m.Get(fd).Interface()
+		}
 	}
 	return result
 }
