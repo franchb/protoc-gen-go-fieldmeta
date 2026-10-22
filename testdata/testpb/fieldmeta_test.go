@@ -572,3 +572,16 @@ func TestSensitiveFieldNames_User_ReturnsNewSlice(t *testing.T) {
 		t.Error("SensitiveFieldNames should return a fresh slice each call")
 	}
 }
+
+func TestLogFields_ImportOptionUser(t *testing.T) {
+	msg := &ImportOptionUser{}
+	msg.SetEmail("ada@example.com")
+
+	got := LogFields_ImportOptionUser(msg)
+	if len(got) != 1 {
+		t.Fatalf("expected 1 key, got %d: %v", len(got), got)
+	}
+	if v, ok := got["user_email"]; !ok || v != "ada@example.com" {
+		t.Errorf("user_email = %v, want ada@example.com", v)
+	}
+}
