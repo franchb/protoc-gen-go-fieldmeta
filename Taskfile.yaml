@@ -40,7 +40,7 @@ tasks:
       - test -x {{.TOOL_DIR}}/protoc-gen-go
       - |
         mod=$(go list -m -f '{{"{{.Version}}"}}' google.golang.org/protobuf)
-        {{.TOOL_DIR}}/protoc-gen-go --version | grep -F "$mod"
+        {{.TOOL_DIR}}/protoc-gen-go --version | grep -Fx "protoc-gen-go $mod"
     cmds:
       - |
         mod=$(go list -m -f '{{"{{.Version}}"}}' google.golang.org/protobuf)
