@@ -5,8 +5,5 @@ plugins:
     out: .
     opt:
       - paths=source_relative
-      # cpp_features.proto has no go_package; protoc-gen-go needs a path to
-      # compile the file-level features.(pb.cpp).string_type pin.
-      - Mgoogle/protobuf/cpp_features.proto=google.golang.org/protobuf/types/descriptorpb
 inputs:
   - directory: .

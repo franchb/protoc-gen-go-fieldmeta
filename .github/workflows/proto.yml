@@ -18,6 +18,7 @@ jobs:
           fetch-depth: 0
 
       - name: Fetch main for buf breaking
+        if: github.event_name == 'pull_request'
         run: git fetch origin main:refs/heads/main
 
       - uses: actions/setup-go@v6

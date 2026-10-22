@@ -104,13 +104,13 @@ var File_fieldmeta_v1_options_proto protoreflect.FileDescriptor
 
 const file_fieldmeta_v1_options_proto_rawDesc = "" +
 	"\n" +
-	"\x1afieldmeta/v1/options.proto\x12\ffieldmeta.v1\x1a\"google/protobuf/cpp_features.proto\x1a google/protobuf/descriptor.proto:1\n" +
+	"\x1afieldmeta/v1/options.proto\x12\ffieldmeta.v1\x1a google/protobuf/descriptor.proto:1\n" +
 	"\x03log\x12\x1d.google.protobuf.FieldOptions\x18\xb4\x87\x03 \x01(\tR\x03log:=\n" +
 	"\tsensitive\x12\x1d.google.protobuf.FieldOptions\x18\xb5\x87\x03 \x01(\bR\tsensitive:=\n" +
 	"\timmutable\x12\x1d.google.protobuf.FieldOptions\x18\xb6\x87\x03 \x01(\bR\timmutable:/\n" +
 	"\x02db\x12\x1d.google.protobuf.FieldOptions\x18\xb7\x87\x03 \x01(\tR\x02db:3\n" +
 	"\x04mask\x12\x1d.google.protobuf.FieldOptions\x18\xb8\x87\x03 \x01(\tR\x04mask:3\n" +
-	"\x04tags\x12\x1d.google.protobuf.FieldOptions\x18\x98\x88\x03 \x01(\tR\x04tagsBMZCgithub.com/franchb/protoc-gen-go-fieldmeta/fieldmeta/v1;fieldmetav1\x92\x03\x05\xc2>\x02\x10\x03b\beditionsp\xea\a"
+	"\x04tags\x12\x1d.google.protobuf.FieldOptions\x18\x98\x88\x03 \x01(\tR\x04tagsBMZCgithub.com/franchb/protoc-gen-go-fieldmeta/fieldmeta/v1;fieldmetav1\x92\x03\x05\xc2>\x02\x10\x03b\beditionsp\xea\az\"google/protobuf/cpp_features.proto"
 
 var file_fieldmeta_v1_options_proto_goTypes = []any{
 	(*descriptorpb.FieldOptions)(nil), // 0: google.protobuf.FieldOptions
