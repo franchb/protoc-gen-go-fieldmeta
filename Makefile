@@ -1,6 +1,7 @@
 TOOL_DIR = .tool
 BINNY = $(TOOL_DIR)/binny
 TASK = $(TOOL_DIR)/task
+BINNY_VERSION := $(shell awk '/^  BINNY_VERSION:/ {print $$2}' Taskfile.yaml)
 
 .DEFAULT_GOAL := make-default
 
@@ -8,7 +9,7 @@ TASK = $(TOOL_DIR)/task
 
 $(BINNY):
 	@mkdir -p $(TOOL_DIR)
-	@curl -sSfL https://get.anchore.io/binny | sh -s -- -b $(TOOL_DIR)
+	@GOBIN=$(abspath $(TOOL_DIR)) go install github.com/anchore/binny/cmd/binny@$(BINNY_VERSION)
 
 .PHONY: task
 $(TASK) task: $(BINNY)

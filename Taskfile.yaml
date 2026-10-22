@@ -2,7 +2,7 @@ version: "3"
 
 vars:
   TOOL_DIR: .tool
-  BINNY_VERSION: v0.13.0
+  BINNY_VERSION: v0.13.4
 
 tasks:
   default:
