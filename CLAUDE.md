@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-`protoc-gen-go-fieldmeta` is a protoc plugin that generates Go code with field metadata from Protocol Buffer definitions. Go 1.26+, Apache 2.0 license.
+`protoc-gen-go-fieldmeta` is a protoc plugin that generates Go code with field metadata from Protocol Buffer definitions. Go 1.27+, Apache 2.0 license.
 
 ## Commands
 

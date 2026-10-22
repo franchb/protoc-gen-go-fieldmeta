@@ -85,5 +85,6 @@ No post-processing step needed.
 | proto3 + fieldmeta.tags | proto3 + structured | Replace `tags` with `log`, `db`, `sensitive`, etc. |
 | proto3 + structured | edition 2023 + structured | Change `syntax = "proto3"` to `edition = "2023"`, remove `optional` keywords |
 | edition 2023 + structured | Opaque API | Enable opaque API — generated helpers already work |
+| edition 2023 + structured | edition 2026 + Opaque | Change `edition = "2023"` to `edition = "2026"`. Call sites use Opaque setters and getters. Mark `export` on any top-level message another `.proto` file imports. `fieldmeta/v1` publishes extensions, not messages, so that file has no message to export. |
 
 Each step is independent. You can stop at any point and have a working setup.
