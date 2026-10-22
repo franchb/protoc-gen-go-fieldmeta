@@ -110,7 +110,7 @@ const file_fieldmeta_v1_options_proto_rawDesc = "" +
 	"\timmutable\x12\x1d.google.protobuf.FieldOptions\x18\xb6\x87\x03 \x01(\bR\timmutable:/\n" +
 	"\x02db\x12\x1d.google.protobuf.FieldOptions\x18\xb7\x87\x03 \x01(\tR\x02db:3\n" +
 	"\x04mask\x12\x1d.google.protobuf.FieldOptions\x18\xb8\x87\x03 \x01(\tR\x04mask:3\n" +
-	"\x04tags\x12\x1d.google.protobuf.FieldOptions\x18\x98\x88\x03 \x01(\tR\x04tagsBEZCgithub.com/franchb/protoc-gen-go-fieldmeta/fieldmeta/v1;fieldmetav1b\beditionsp\xe8\a"
+	"\x04tags\x12\x1d.google.protobuf.FieldOptions\x18\x98\x88\x03 \x01(\tR\x04tagsBEZCgithub.com/franchb/protoc-gen-go-fieldmeta/fieldmeta/v1;fieldmetav1b\beditionsp\xea\a"
 
 var file_fieldmeta_v1_options_proto_goTypes = []any{
 	(*descriptorpb.FieldOptions)(nil), // 0: google.protobuf.FieldOptions

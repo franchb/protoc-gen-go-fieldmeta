@@ -11,7 +11,6 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -23,14 +22,16 @@ const (
 )
 
 type User struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Email         *string                `protobuf:"bytes,1,opt,name=email" json:"email,omitempty"`
-	DisplayName   *string                `protobuf:"bytes,2,opt,name=display_name,json=displayName" json:"display_name,omitempty"`
-	PasswordHash  *string                `protobuf:"bytes,3,opt,name=password_hash,json=passwordHash" json:"password_hash,omitempty"`
-	Ssn           *string                `protobuf:"bytes,4,opt,name=ssn" json:"ssn,omitempty"`
-	Role          *string                `protobuf:"bytes,5,opt,name=role" json:"role,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                   protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Email        *string                `protobuf:"bytes,1,opt,name=email"`
+	xxx_hidden_DisplayName  *string                `protobuf:"bytes,2,opt,name=display_name,json=displayName"`
+	xxx_hidden_PasswordHash *string                `protobuf:"bytes,3,opt,name=password_hash,json=passwordHash"`
+	xxx_hidden_Ssn          *string                `protobuf:"bytes,4,opt,name=ssn"`
+	xxx_hidden_Role         *string                `protobuf:"bytes,5,opt,name=role"`
+	XXX_raceDetectHookData  protoimpl.RaceDetectHookData
+	XXX_presence            [1]uint32
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *User) Reset() {
@@ -58,48 +59,180 @@ func (x *User) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use User.ProtoReflect.Descriptor instead.
-func (*User) Descriptor() ([]byte, []int) {
-	return file_testdata_testpb_basic_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *User) GetEmail() string {
-	if x != nil && x.Email != nil {
-		return *x.Email
+	if x != nil {
+		if x.xxx_hidden_Email != nil {
+			return *x.xxx_hidden_Email
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *User) GetDisplayName() string {
-	if x != nil && x.DisplayName != nil {
-		return *x.DisplayName
+	if x != nil {
+		if x.xxx_hidden_DisplayName != nil {
+			return *x.xxx_hidden_DisplayName
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *User) GetPasswordHash() string {
-	if x != nil && x.PasswordHash != nil {
-		return *x.PasswordHash
+	if x != nil {
+		if x.xxx_hidden_PasswordHash != nil {
+			return *x.xxx_hidden_PasswordHash
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *User) GetSsn() string {
-	if x != nil && x.Ssn != nil {
-		return *x.Ssn
+	if x != nil {
+		if x.xxx_hidden_Ssn != nil {
+			return *x.xxx_hidden_Ssn
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *User) GetRole() string {
-	if x != nil && x.Role != nil {
-		return *x.Role
+	if x != nil {
+		if x.xxx_hidden_Role != nil {
+			return *x.xxx_hidden_Role
+		}
+		return ""
 	}
 	return ""
 }
 
+func (x *User) SetEmail(v string) {
+	x.xxx_hidden_Email = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 5)
+}
+
+func (x *User) SetDisplayName(v string) {
+	x.xxx_hidden_DisplayName = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 1, 5)
+}
+
+func (x *User) SetPasswordHash(v string) {
+	x.xxx_hidden_PasswordHash = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 2, 5)
+}
+
+func (x *User) SetSsn(v string) {
+	x.xxx_hidden_Ssn = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 3, 5)
+}
+
+func (x *User) SetRole(v string) {
+	x.xxx_hidden_Role = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 4, 5)
+}
+
+func (x *User) HasEmail() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
+}
+
+func (x *User) HasDisplayName() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 1)
+}
+
+func (x *User) HasPasswordHash() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 2)
+}
+
+func (x *User) HasSsn() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 3)
+}
+
+func (x *User) HasRole() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 4)
+}
+
+func (x *User) ClearEmail() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
+	x.xxx_hidden_Email = nil
+}
+
+func (x *User) ClearDisplayName() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 1)
+	x.xxx_hidden_DisplayName = nil
+}
+
+func (x *User) ClearPasswordHash() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 2)
+	x.xxx_hidden_PasswordHash = nil
+}
+
+func (x *User) ClearSsn() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 3)
+	x.xxx_hidden_Ssn = nil
+}
+
+func (x *User) ClearRole() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 4)
+	x.xxx_hidden_Role = nil
+}
+
+type User_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Email        *string
+	DisplayName  *string
+	PasswordHash *string
+	Ssn          *string
+	Role         *string
+}
+
+func (b0 User_builder) Build() *User {
+	m0 := &User{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Email != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 5)
+		x.xxx_hidden_Email = b.Email
+	}
+	if b.DisplayName != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 1, 5)
+		x.xxx_hidden_DisplayName = b.DisplayName
+	}
+	if b.PasswordHash != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 2, 5)
+		x.xxx_hidden_PasswordHash = b.PasswordHash
+	}
+	if b.Ssn != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 3, 5)
+		x.xxx_hidden_Ssn = b.Ssn
+	}
+	if b.Role != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 4, 5)
+		x.xxx_hidden_Role = b.Role
+	}
+	return m0
+}
+
 type Empty struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"opaque.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -129,16 +262,25 @@ func (x *Empty) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Empty.ProtoReflect.Descriptor instead.
-func (*Empty) Descriptor() ([]byte, []int) {
-	return file_testdata_testpb_basic_proto_rawDescGZIP(), []int{1}
+type Empty_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 Empty_builder) Build() *Empty {
+	m0 := &Empty{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type Outer struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          *string                `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                  protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Name        *string                `protobuf:"bytes,1,opt,name=name"`
+	XXX_raceDetectHookData protoimpl.RaceDetectHookData
+	XXX_presence           [1]uint32
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *Outer) Reset() {
@@ -166,23 +308,57 @@ func (x *Outer) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Outer.ProtoReflect.Descriptor instead.
-func (*Outer) Descriptor() ([]byte, []int) {
-	return file_testdata_testpb_basic_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *Outer) GetName() string {
-	if x != nil && x.Name != nil {
-		return *x.Name
+	if x != nil {
+		if x.xxx_hidden_Name != nil {
+			return *x.xxx_hidden_Name
+		}
+		return ""
 	}
 	return ""
 }
 
+func (x *Outer) SetName(v string) {
+	x.xxx_hidden_Name = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 1)
+}
+
+func (x *Outer) HasName() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
+}
+
+func (x *Outer) ClearName() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
+	x.xxx_hidden_Name = nil
+}
+
+type Outer_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Name *string
+}
+
+func (b0 Outer_builder) Build() *Outer {
+	m0 := &Outer{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Name != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 1)
+		x.xxx_hidden_Name = b.Name
+	}
+	return m0
+}
+
 type Outer_Inner struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         *int32                 `protobuf:"varint,1,opt,name=value" json:"value,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                  protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Value       int32                  `protobuf:"varint,1,opt,name=value"`
+	XXX_raceDetectHookData protoimpl.RaceDetectHookData
+	XXX_presence           [1]uint32
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *Outer_Inner) Reset() {
@@ -210,16 +386,45 @@ func (x *Outer_Inner) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Outer_Inner.ProtoReflect.Descriptor instead.
-func (*Outer_Inner) Descriptor() ([]byte, []int) {
-	return file_testdata_testpb_basic_proto_rawDescGZIP(), []int{2, 0}
-}
-
 func (x *Outer_Inner) GetValue() int32 {
-	if x != nil && x.Value != nil {
-		return *x.Value
+	if x != nil {
+		return x.xxx_hidden_Value
 	}
 	return 0
+}
+
+func (x *Outer_Inner) SetValue(v int32) {
+	x.xxx_hidden_Value = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 1)
+}
+
+func (x *Outer_Inner) HasValue() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
+}
+
+func (x *Outer_Inner) ClearValue() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
+	x.xxx_hidden_Value = 0
+}
+
+type Outer_Inner_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Value *int32
+}
+
+func (b0 Outer_Inner_builder) Build() *Outer_Inner {
+	m0 := &Outer_Inner{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Value != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 1)
+		x.xxx_hidden_Value = *b.Value
+	}
+	return m0
 }
 
 var File_testdata_testpb_basic_proto protoreflect.FileDescriptor
@@ -239,19 +444,7 @@ const file_testdata_testpb_basic_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tB\x0e\xa2\xbb\x18\n" +
 	"outer_nameR\x04name\x1a,\n" +
 	"\x05Inner\x12#\n" +
-	"\x05value\x18\x01 \x01(\x05B\r\xa2\xbb\x18\tinner_valR\x05valueBCZAgithub.com/franchb/protoc-gen-go-fieldmeta/testdata/testpb;testpbb\beditionsp\xe8\a"
-
-var (
-	file_testdata_testpb_basic_proto_rawDescOnce sync.Once
-	file_testdata_testpb_basic_proto_rawDescData []byte
-)
-
-func file_testdata_testpb_basic_proto_rawDescGZIP() []byte {
-	file_testdata_testpb_basic_proto_rawDescOnce.Do(func() {
-		file_testdata_testpb_basic_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_testdata_testpb_basic_proto_rawDesc), len(file_testdata_testpb_basic_proto_rawDesc)))
-	})
-	return file_testdata_testpb_basic_proto_rawDescData
-}
+	"\x05value\x18\x01 \x01(\x05B\r\xa2\xbb\x18\tinner_valR\x05valueBCZAgithub.com/franchb/protoc-gen-go-fieldmeta/testdata/testpb;testpbb\beditionsp\xea\a"
 
 var file_testdata_testpb_basic_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_testdata_testpb_basic_proto_goTypes = []any{
