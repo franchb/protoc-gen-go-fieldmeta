@@ -18,11 +18,11 @@ import (
 
 func TestLogFields_User(t *testing.T) {
 	u := &testpb.User{}
-	u.Email = proto.String("a@b.com")
-	u.DisplayName = proto.String("Alice")
-	u.PasswordHash = proto.String("hash")
-	u.Ssn = proto.String("123")
-	u.Role = proto.String("admin")
+	u.SetEmail("a@b.com")
+	u.SetDisplayName("Alice")
+	u.SetPasswordHash("hash")
+	u.SetSsn("123")
+	u.SetRole("admin")
 
 	got := LogFields(u)
 	if got == nil {
@@ -50,8 +50,8 @@ func TestLogFields_User(t *testing.T) {
 
 func TestLogFields_Event(t *testing.T) {
 	e := &testpb.Event{}
-	e.EventId = proto.String("evt-1")
-	e.Payload = &testpb.Event_Text{Text: "hello"}
+	e.SetEventId("evt-1")
+	e.SetText("hello")
 
 	got := LogFields(e)
 	if got == nil {
@@ -67,9 +67,9 @@ func TestLogFields_Event(t *testing.T) {
 
 func TestLogFields_LegacyUser(t *testing.T) {
 	lu := &testpb.LegacyUser{}
-	lu.Email = proto.String("x@y.com")
-	lu.Age = proto.Int32(30)
-	lu.Login = proto.String("mylogin")
+	lu.SetEmail("x@y.com")
+	lu.SetAge(30)
+	lu.SetLogin("mylogin")
 
 	got := LogFields(lu)
 	if got == nil {
@@ -93,8 +93,8 @@ func TestLogFields_Nil(t *testing.T) {
 
 func TestLogFields_NoOptions(t *testing.T) {
 	p := &testpb.Plain{}
-	p.Id = proto.String("1")
-	p.Name = proto.String("test")
+	p.SetId("1")
+	p.SetName("test")
 
 	got := LogFields(p)
 	if got != nil {
@@ -160,11 +160,11 @@ func TestSensitiveFieldNames_NoOptions(t *testing.T) {
 
 func TestRedactSensitive_User(t *testing.T) {
 	u := &testpb.User{}
-	u.Email = proto.String("a@b.com")
-	u.DisplayName = proto.String("Alice")
-	u.PasswordHash = proto.String("secret-hash")
-	u.Ssn = proto.String("123-45-6789")
-	u.Role = proto.String("admin")
+	u.SetEmail("a@b.com")
+	u.SetDisplayName("Alice")
+	u.SetPasswordHash("secret-hash")
+	u.SetSsn("123-45-6789")
+	u.SetRole("admin")
 
 	result := RedactSensitive(u)
 	if result == nil {
@@ -203,8 +203,8 @@ func TestRedactSensitive_User(t *testing.T) {
 
 func TestRedactSensitive_Event(t *testing.T) {
 	e := &testpb.Event{}
-	e.EventId = proto.String("evt-1")
-	e.Payload = &testpb.Event_Binary{Binary: []byte("sensitive-data")}
+	e.SetEventId("evt-1")
+	e.SetBinary([]byte("sensitive-data"))
 
 	result := RedactSensitive(e)
 	redacted := result.(*testpb.Event)
@@ -230,8 +230,8 @@ func TestRedactSensitive_Nil(t *testing.T) {
 
 func TestRedactSensitive_NoSensitiveFields(t *testing.T) {
 	p := &testpb.Plain{}
-	p.Id = proto.String("1")
-	p.Name = proto.String("test")
+	p.SetId("1")
+	p.SetName("test")
 
 	result := RedactSensitive(p)
 	redacted := result.(*testpb.Plain)

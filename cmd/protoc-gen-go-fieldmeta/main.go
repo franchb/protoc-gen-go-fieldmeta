@@ -27,7 +27,7 @@ func main() {
 				pluginpb.CodeGeneratorResponse_FEATURE_SUPPORTS_EDITIONS,
 		)
 		gen.SupportedEditionsMinimum = descriptorpb.Edition_EDITION_PROTO2
-		gen.SupportedEditionsMaximum = descriptorpb.Edition_EDITION_2023
+		gen.SupportedEditionsMaximum = descriptorpb.Edition_EDITION_2026
 
 		for _, f := range gen.Files {
 			if !f.Generate {

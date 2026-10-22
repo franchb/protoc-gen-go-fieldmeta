@@ -3,8 +3,6 @@ package testpb
 import (
 	"sort"
 	"testing"
-
-	"google.golang.org/protobuf/proto"
 )
 
 // ---------------------------------------------------------------------------
@@ -12,11 +10,10 @@ import (
 // ---------------------------------------------------------------------------
 
 func TestLogFields_User(t *testing.T) {
-	msg := &User{
-		Email:       proto.String("alice@example.com"),
-		DisplayName: proto.String("Alice"),
-		Role:        proto.String("admin"),
-	}
+	msg := &User{}
+	msg.SetEmail("alice@example.com")
+	msg.SetDisplayName("Alice")
+	msg.SetRole("admin")
 
 	got := LogFields_User(msg)
 
@@ -84,13 +81,12 @@ func TestSensitiveFieldNames_User(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestRedactSensitive_User(t *testing.T) {
-	original := &User{
-		Email:        proto.String("alice@example.com"),
-		DisplayName:  proto.String("Alice"),
-		PasswordHash: proto.String("secret-hash"),
-		Ssn:          proto.String("123-45-6789"),
-		Role:         proto.String("admin"),
-	}
+	original := &User{}
+	original.SetEmail("alice@example.com")
+	original.SetDisplayName("Alice")
+	original.SetPasswordHash("secret-hash")
+	original.SetSsn("123-45-6789")
+	original.SetRole("admin")
 
 	redacted := RedactSensitive_User(original)
 
@@ -130,9 +126,8 @@ func TestRedactSensitive_User_Nil(t *testing.T) {
 }
 
 func TestRedactSensitive_User_NoSensitiveSet(t *testing.T) {
-	original := &User{
-		Email: proto.String("bob@example.com"),
-	}
+	original := &User{}
+	original.SetEmail("bob@example.com")
 	redacted := RedactSensitive_User(original)
 	if redacted.GetEmail() != "bob@example.com" {
 		t.Errorf("email = %q, want bob@example.com", redacted.GetEmail())
@@ -163,7 +158,8 @@ func TestFieldDbColumns_User(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestLogFields_Outer(t *testing.T) {
-	msg := &Outer{Name: proto.String("test-outer")}
+	msg := &Outer{}
+	msg.SetName("test-outer")
 	got := LogFields_Outer(msg)
 
 	if len(got) != 1 {
@@ -186,7 +182,8 @@ func TestLogFields_Outer_Nil(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestLogFields_Outer_Inner(t *testing.T) {
-	msg := &Outer_Inner{Value: proto.Int32(42)}
+	msg := &Outer_Inner{}
+	msg.SetValue(42)
 	got := LogFields_Outer_Inner(msg)
 
 	if len(got) != 1 {
@@ -225,11 +222,10 @@ func TestLogFields_Outer_Inner_ZeroValue(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestLogFields_LegacyUser(t *testing.T) {
-	msg := &LegacyUser{
-		Email: proto.String("legacy@example.com"),
-		Age:   proto.Int32(30),
-		Login: proto.String("leguser"),
-	}
+	msg := &LegacyUser{}
+	msg.SetEmail("legacy@example.com")
+	msg.SetAge(30)
+	msg.SetLogin("leguser")
 	got := LogFields_LegacyUser(msg)
 
 	if len(got) != 1 {
@@ -265,11 +261,10 @@ func TestSensitiveFieldNames_LegacyUser(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestRedactSensitive_LegacyUser(t *testing.T) {
-	original := &LegacyUser{
-		Email: proto.String("legacy@example.com"),
-		Age:   proto.Int32(25),
-		Login: proto.String("secret-login"),
-	}
+	original := &LegacyUser{}
+	original.SetEmail("legacy@example.com")
+	original.SetAge(25)
+	original.SetLogin("secret-login")
 
 	redacted := RedactSensitive_LegacyUser(original)
 
@@ -387,10 +382,9 @@ func TestGetFieldTag_LegacyUser(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestLogFields_Event_WithText(t *testing.T) {
-	msg := &Event{
-		EventId: proto.String("evt-1"),
-		Payload: &Event_Text{Text: "hello"},
-	}
+	msg := &Event{}
+	msg.SetEventId("evt-1")
+	msg.SetText("hello")
 
 	got := LogFields_Event(msg)
 
@@ -406,10 +400,9 @@ func TestLogFields_Event_WithText(t *testing.T) {
 }
 
 func TestLogFields_Event_WithBinary(t *testing.T) {
-	msg := &Event{
-		EventId: proto.String("evt-2"),
-		Payload: &Event_Binary{Binary: []byte{0xDE, 0xAD}},
-	}
+	msg := &Event{}
+	msg.SetEventId("evt-2")
+	msg.SetBinary([]byte{0xDE, 0xAD})
 
 	got := LogFields_Event(msg)
 
@@ -427,9 +420,8 @@ func TestLogFields_Event_WithBinary(t *testing.T) {
 }
 
 func TestLogFields_Event_NoPayload(t *testing.T) {
-	msg := &Event{
-		EventId: proto.String("evt-3"),
-	}
+	msg := &Event{}
+	msg.SetEventId("evt-3")
 
 	got := LogFields_Event(msg)
 
@@ -466,10 +458,9 @@ func TestSensitiveFieldNames_Event(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestRedactSensitive_Event_WithBinary(t *testing.T) {
-	original := &Event{
-		EventId: proto.String("evt-redact"),
-		Payload: &Event_Binary{Binary: []byte("secret-data")},
-	}
+	original := &Event{}
+	original.SetEventId("evt-redact")
+	original.SetBinary([]byte("secret-data"))
 
 	redacted := RedactSensitive_Event(original)
 
@@ -489,10 +480,9 @@ func TestRedactSensitive_Event_WithBinary(t *testing.T) {
 }
 
 func TestRedactSensitive_Event_WithText(t *testing.T) {
-	original := &Event{
-		EventId: proto.String("evt-safe"),
-		Payload: &Event_Text{Text: "public-data"},
-	}
+	original := &Event{}
+	original.SetEventId("evt-safe")
+	original.SetText("public-data")
 
 	redacted := RedactSensitive_Event(original)
 
@@ -516,10 +506,9 @@ func TestRedactSensitive_Event_Nil(t *testing.T) {
 // ---------------------------------------------------------------------------
 
 func TestRedactSensitive_User_IsCopy(t *testing.T) {
-	original := &User{
-		Email:        proto.String("test@test.com"),
-		PasswordHash: proto.String("hash"),
-	}
+	original := &User{}
+	original.SetEmail("test@test.com")
+	original.SetPasswordHash("hash")
 	redacted := RedactSensitive_User(original)
 
 	if redacted == original {
@@ -527,7 +516,7 @@ func TestRedactSensitive_User_IsCopy(t *testing.T) {
 	}
 
 	// Mutating the redacted copy must not affect the original
-	redacted.Email = proto.String("mutated@test.com")
+	redacted.SetEmail("mutated@test.com")
 	if original.GetEmail() != "test@test.com" {
 		t.Error("mutating redacted copy affected the original")
 	}
@@ -581,5 +570,18 @@ func TestSensitiveFieldNames_User_ReturnsNewSlice(t *testing.T) {
 	a[0] = "MUTATED"
 	if b[0] == "MUTATED" {
 		t.Error("SensitiveFieldNames should return a fresh slice each call")
+	}
+}
+
+func TestLogFields_ImportOptionUser(t *testing.T) {
+	msg := &ImportOptionUser{}
+	msg.SetEmail("ada@example.com")
+
+	got := LogFields_ImportOptionUser(msg)
+	if len(got) != 1 {
+		t.Fatalf("expected 1 key, got %d: %v", len(got), got)
+	}
+	if v, ok := got["user_email"]; !ok || v != "ada@example.com" {
+		t.Errorf("user_email = %v, want ada@example.com", v)
 	}
 }

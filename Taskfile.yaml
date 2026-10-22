@@ -2,7 +2,7 @@ version: "3"
 
 vars:
   TOOL_DIR: .tool
-  BINNY_VERSION: v0.13.0
+  BINNY_VERSION: v0.13.4
 
 tasks:
   default:
@@ -31,6 +31,20 @@ tasks:
       - "{{ .TOOL_DIR }}/binny check -v"
     cmd: "{{ .TOOL_DIR }}/binny install -v"
     silent: true
+
+  protoc-gen-go:
+    internal: true
+    generates:
+      - "{{.TOOL_DIR}}/protoc-gen-go"
+    status:
+      - test -x {{.TOOL_DIR}}/protoc-gen-go
+      - |
+        mod=$(go list -m -f '{{"{{.Version}}"}}' google.golang.org/protobuf)
+        {{.TOOL_DIR}}/protoc-gen-go --version | grep -Fx "protoc-gen-go $mod"
+    cmds:
+      - |
+        mod=$(go list -m -f '{{"{{.Version}}"}}' google.golang.org/protobuf)
+        GOBIN="$(pwd)/{{.TOOL_DIR}}" go install "google.golang.org/protobuf/cmd/protoc-gen-go@${mod}"
 
   update-tools:
     desc: Update pinned tool versions
@@ -68,8 +82,8 @@ tasks:
 
   proto-generate:
     desc: Generate Go code from protobuf
-    deps: [tools]
-    cmd: "{{ .TOOL_DIR }}/buf generate"
+    deps: [tools, protoc-gen-go]
+    cmd: "PATH={{.TOOL_DIR}}:$PATH {{.TOOL_DIR}}/buf generate"
 
   proto-generate-fieldmeta:
     desc: Build plugin and generate fieldmeta helpers for test protos

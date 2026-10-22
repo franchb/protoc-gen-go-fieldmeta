@@ -1,0 +1,32 @@
+name: Proto
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  proto:
+    name: proto-lint and breaking
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Fetch main for buf breaking
+        if: github.event_name == 'pull_request'
+        run: git fetch origin main:refs/heads/main
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+
+      - name: Lint protos
+        run: make proto-lint
+
+      - name: Check breaking changes
+        run: make proto-breaking

@@ -84,7 +84,7 @@ protoc -I. -I"$FIELDMETA_INCLUDE" \
 **1. Define options in your .proto file:**
 
 ```protobuf
-edition = "2023";
+edition = "2026";
 
 import "fieldmeta/v1/options.proto";
 
@@ -174,11 +174,15 @@ Quick version: use `fieldmeta.v1.tags` as a drop-in shim, then migrate to struct
 
 ## Edition Compatibility
 
+New files should use `edition = "2026"`. The plugin still accepts older syntax.
+
 | Proto Syntax | Supported |
 |-------------|-----------|
 | `proto2` | Yes |
 | `proto3` | Yes |
 | `edition = "2023"` | Yes |
+| `edition = "2024"` | Yes |
+| `edition = "2026"` | Yes |
 
 ## Contributing
 

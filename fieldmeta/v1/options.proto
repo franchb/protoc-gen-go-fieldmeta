@@ -1,10 +1,12 @@
-edition = "2023";
+edition = "2026";
 
 package fieldmeta.v1;
 
 import "google/protobuf/descriptor.proto";
+import option "google/protobuf/cpp_features.proto";
 
 option go_package = "github.com/franchb/protoc-gen-go-fieldmeta/fieldmeta/v1;fieldmetav1";
+option features.(pb.cpp).string_type = STRING;
 
 extend google.protobuf.FieldOptions {
   // Structured logging key for this field.

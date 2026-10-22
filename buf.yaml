@@ -11,3 +11,5 @@ lint:
 breaking:
   use:
     - FILE
+  ignore:
+    - testdata
